@@ -2,7 +2,7 @@ import * as THREE from 'three';
 const StepG = new THREE.SphereGeometry(0.8, 5, 5);
 
 export default class Bullet{
-    	constructor(scene, game, position, speed, aH, aV){
+    	constructor(game, position, speed, aH, aV){
  			this.startPosition = Object.assign({}, position);
 			this.position      = Object.assign({}, position);   	
 			this.speed=speed;
@@ -17,8 +17,6 @@ export default class Bullet{
 
 			this.game = game;
 
-    		//Створення сфери (частини сфери)
-			//const G = new THREE.SphereGeometry(0.5, 5, 5);
 			const G = new THREE.CylinderGeometry( 0.4, 0.3, 5, 36 );
 			const M = new THREE.MeshBasicMaterial({color:'grey'});
 			this.mesh = new THREE.Mesh(G, M);
@@ -26,15 +24,7 @@ export default class Bullet{
 
 			this.mesh.rotation.set(-Math.PI/2, -aV, aH);
 
-			/*let V = new THREE.Vector3( 
-				2*Math.cos(this.aH), 
-				2*Math.sin(this.aV), 
-				2*Math.sin(this.aH) );*/
-
-			scene.add(this.mesh);
-
-			
-			//this.mesh.lookAt( V );
+			game.getScene().add(this.mesh);
     	}
 
 		move(deltaT){
@@ -44,39 +34,15 @@ export default class Bullet{
 			this.position.x = pos.x + this.Vx * this.t;
 			this.position.z = pos.z + this.Vz * this.t;
 			this.position.y = pos.y + this.Vy * this.t - this.game.world.g*this.t**2/2;
-			//console.log(this.position.y);
 
 			if (this.Hmax<this.position.y) this.Hmax=this.position.y;
-				
-			/*this.position.x+=this.Vx;
-			this.position.z+=this.Vz;
-
-			this.Vy-=g/10; 
-			this.position.y+=this.Vy;*/
-			
-			//console.log('x=' + x + ', y=' + y + ', z=' + z);
 
 	        this.mesh.position.copy(this.position);
 
-			/*
-			azimuth += rotationSpeed * mouseXNormalized;
-    		inclination -= rotationSpeed * mouseYNormalized;
-			const forward = new THREE.Vector3(
-		        Math.sin(azimuth) * Math.cos(inclination),
-		        Math.sin(inclination),
-		        Math.cos(azimuth) * Math.cos(inclination)
-		    );
+	        this.game.getSPS().CreateParticleCloud(this.position, new THREE.Color().setRGB( 0.5, 0.5, 0.5 ), 2, 500, 40, 5, {motion: new THREE.Vector3(0,0.005,0), morphing: 0.01, fade: -0.0005});
 
-		    const right = new THREE.Vector3(-forward.z, 0, forward.x).normalize();
-		    const up = new THREE.Vector3().crossVectors(forward, right).normalize();
-
-		    spaceship.matrix.identity();
-		    spaceship.matrix.makeBasis(right, up, forward);
-		    spaceship.rotation.setFromRotationMatrix(spaceship.matrix);*/
-
-
-			//Створення сліду
-			let ps=this.position;
+			//Створення сліду : Old one
+			/*let ps=this.position;
 			let st=this.speed/100;
 			for(let j=this.t-deltaT; j<this.t; j+=deltaT/20){
 				
@@ -93,8 +59,8 @@ export default class Bullet{
 				pp.z+=-st+2*st*Math.random();
 				//point.position.copy(pp);
 				this.game.SmokeParticles.push(point);
-				this.game.world.scene.add(point);
-			}
+				this.game.world.scene.add(point);*/
+			//}
 		}
 
 		showParam(view){			
@@ -110,6 +76,8 @@ export default class Bullet{
 			view[5].innerHTML = (pos.x).toFixed(1);
 			view[6].innerHTML = (pos.y).toFixed(1);
 			view[7].innerHTML = (pos.z).toFixed(1);
+
+			view[8].innerHTML = this.game.getSPS().particleA;
 
 			//console.log('x=' + pos.x + ', y=' + pos.y + ', z=' + pos.z);
 		}   	

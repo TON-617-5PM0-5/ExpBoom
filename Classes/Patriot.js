@@ -5,8 +5,8 @@ import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
 export default class Patriot{
-		constructor(scene, position, Spans, game) {
-			this.scene=scene;
+		constructor(game, position, Spans) {
+			this.scene=game.getScene();
 			this.position=position;
     		this.d=Math.PI/180;
 
@@ -31,11 +31,11 @@ export default class Patriot{
 			const length = 15;     //довжина
 			const hex = 0xffff00;  //колір
 			this.arrow = new THREE.ArrowHelper( this.dir, origin, length, hex );
-			scene.add( this.arrow );
+			this.scene.add( this.arrow );
 
 			this.showParam(this.Spans);
 
-			this.loadModel(scene, this.position);
+			this.loadModel(this.scene, this.position);
 		}
 
 		loadModel(scene, position){
@@ -148,8 +148,7 @@ export default class Patriot{
 			//console.log(position);
 			position.y=6.5;
 
-			let rocket = new Bullet( this.scene,
-									 this.game,
+			let rocket = new Bullet( this.game,
 									 position, 
 				                     this.speed, 
 				                     this.angleH, 
@@ -167,6 +166,8 @@ export default class Patriot{
 			view[4].innerHTML = (pos.x).toFixed(1);
 			view[5].innerHTML = (pos.y).toFixed(1);
 			view[6].innerHTML = (pos.z).toFixed(1);
+			view[8].innerHTML = this.game.getSPS().particleA;
+			//console.log(this.game.getSPS().particleA);
 
 			//console.log('x=' + pos.x + ', y=' + pos.y + ', z=' + pos.z);
 		}

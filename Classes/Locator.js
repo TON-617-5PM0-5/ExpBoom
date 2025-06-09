@@ -4,7 +4,7 @@ import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
 export default class Locator{
-    	constructor(scene, position) {
+    	constructor(game, position) {
 			this.position=position;
     		this.d=Math.PI/180;
 			this.angleH=Math.PI/4;
@@ -12,9 +12,10 @@ export default class Locator{
 			this.speed = 50;
 			this.model=null;
 			this.tRotate=0.05;
+			this.game = game;
 			//this.load_model=false;
 			//var RR=this.model;
-			this.loadModel(scene, this.position);
+			this.loadModel(this.game.getScene(), this.position);
 		}
 
 		loadModel(scene, position){
