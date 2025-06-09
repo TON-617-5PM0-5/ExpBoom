@@ -35,16 +35,10 @@ export default class Locator{
 			let JPGFile5=TexturePath + 'track_bp.png';
 			let JPGFile6=TexturePath + 'track_sp.png';
 
-			//let JPGFile2=TexturePath + 'pac_3_launcher_d.png';
-
 			const onProgress = function ( xhr ) {
 				if ( xhr.lengthComputable ) {
 					const percentComplete = xhr.loaded / xhr.total * 100;
 					console.log( percentComplete.toFixed( 2 ) + '% downloaded' );
-					/*if (percentComplete==100){
-						this.model=R;
-						console.log('this.model=' + this.model);
-					}*/
 				}
 			};
 
@@ -63,12 +57,6 @@ export default class Locator{
 											new THREE.TextureLoader().load(JPGFile6)
 							              ];
 
-							//object.children[0].material.map = texture[0];
-							//object.children[1].material.map = texture[1];
-							//object.children[2].material.map = texture[2];
-							//object.children[3].material.map = texture[3];
-							//object.children[4].material.map = texture[3];
-
 							object.traverse(
 								function (child) {
 									//зміна центра обертання
@@ -77,22 +65,12 @@ export default class Locator{
           							bbox.getCenter(vec);
 
 									if (child instanceof THREE.Mesh){
-										//console.log('Radar: ' + child);
 
 										child.position.set(vec.x, vec.y, vec.z);
 							            if (child.geometry) {
 							              child.geometry.translate(-vec.x, -vec.y, -vec.z);
 							            }
 									}
-									/*else {
-							            child.position.set(vec.x, vec.y, vec.z);
-							            child.traverse((child) => {
-							              if (child instanceof Mesh) {
-							                child.geometry.translate(-vec.x, -vec.y, -vec.z);
-							              }
-							            });
-							            child.position.set(0, 0, 0);
-							        }*/
 								}
 							);
 
@@ -102,11 +80,9 @@ export default class Locator{
 							scene.add(object);
 
 							this.model=object;
-							//console.log('R=' + R);
 						}, 
 						onProgress
 					);
-					//console.log('M2=' + M);
 				}
 			);
 

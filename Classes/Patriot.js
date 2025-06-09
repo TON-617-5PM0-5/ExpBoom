@@ -27,7 +27,6 @@ export default class Patriot{
 							Math.sin(this.angleV), 
 							Math.sin(this.angleH) );
 			
-			//this.dir.normalize();
 			const origin = new THREE.Vector3( this.position.x-6.5, 6.5, this.position.z-6.5); 
 			const length = 15;     //довжина
 			const hex = 0xffff00;  //колір
@@ -50,8 +49,6 @@ export default class Patriot{
 			let OBJFile=ModelPath + 'PAC3.obj';
 		
 			let JPGFile1=TexturePath + 'pac_3_tractor_d.png';
-			//let JPGFile1_2=TexturePath + 'pac_3_tractor_n.png';
-			//let JPGFile1_3=TexturePath + 'pac_3_tractor_s.png';
 			let JPGFile2=TexturePath + 'pac_3_launcher_d.png';
 			
 			//--------------------------------------------------
@@ -78,7 +75,6 @@ export default class Patriot{
 							object.children[1].material.map = texture[1];
 							object.children[2].material.map = texture[0];
 							
-							//console.log('Launcher0: ' + object.children[0]);
 
 							object.traverse(
 								function (child) {
@@ -87,7 +83,6 @@ export default class Patriot{
           							bbox.getCenter(vec);
 
 									if (child instanceof THREE.Mesh){
-										//console.log('Radar: ' + child);
 
 										child.position.set(vec.x, vec.y, vec.z);
 							            if (child.geometry) {
@@ -95,13 +90,10 @@ export default class Patriot{
 							            }
 									}
 
-									//object.children[2].position.set(-vec.x+0.0, 4, -vec.z);
 									object.children[2].geometry.translate(0, 0, 0);
-									//object.children[2].geometry.origin.set(0,1,0);
 								}
 							);
 
-							//console.log('i=' + i);
 							object.scale.set(1,1,1);
 							object.position.copy(position);
 							object.rotation.y=-Math.PI/4;
@@ -136,10 +128,9 @@ export default class Patriot{
 			
 			if(this.model!==null){
 				let M=this.model;
-				//console.log(M);
+
 				M.children[2].rotation.y= Math.PI/4 -  this.angleH;
 				M.children[2].rotation.z= -Math.PI/6 +  this.angleV;
-				//M.children[2].setDirection( V );
 			}	 
 
 			this.showParam(this.Spans);	 
@@ -156,7 +147,6 @@ export default class Patriot{
 			const position = this.arrow.position.clone();
 			console.log(position);
 			position.y=6.5;
-	        //const direction = this.dir.clone().normalize();
 
 			let rocket = new Bullet( this.scene,
 									 this.game,

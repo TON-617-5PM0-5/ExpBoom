@@ -2,7 +2,6 @@ import * as THREE from 'three';
 
 export default class Sky{
     	constructor(scene){
-    		//console.log(scene);
     		//Створення небесного куполу
 			this.image = '../ExpBoom/images/sky2.jpg';
 			this.radius = 5000;

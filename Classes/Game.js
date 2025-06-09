@@ -58,12 +58,6 @@ export default class Game{
 
 	        	// Вилучення після падіння
 	            if (this.Rockets[i].position.y <= 0) {
-	                /*if (!showFlightSmoke) {
-	                	let sP = Rockets[i].smokeParticles;
-	                	for(var j=0; j<sP.length; j++){
-	                		scene.remove(sP[j]);
-	                	}
-	                }*/
 
 	 				this.world.scene.remove(this.Rockets[i].mesh);
 	                this.Rockets.splice(i, 1);

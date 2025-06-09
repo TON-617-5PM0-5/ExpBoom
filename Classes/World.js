@@ -47,26 +47,7 @@ export default class World{
 
 			//Створення природнього білого світла
 			const ambientLight = new THREE.AmbientLight( 0x404040 );
-			this.scene.add( ambientLight );
-					
-			//Створення пучка світла
-			/*const directionalLight = new THREE.DirectionalLight( 0xffffff, 10 );
-			directionalLight.castShadow = true;
-			directionalLight.position.set(100, 50, 300);
-			directionalLight.lookAt(0,0,0);
-			scene.add( directionalLight );*/
-
-			/*var spotLight = new THREE.SpotLight(0xeeeece);
-			spotLight.position.set(1000, 1000, 1000);
-			scene.add(spotLight);*/
-			
-			/*var spotLight2 = new THREE.SpotLight(0xffffff);
-			spotLight2.position.set( -200, -200, -200);
-			scene.add(spotLight2);*/
-
-			//Додавання туману
-			//scene.fog=new THREE.Fog( 0xffffff, 0.015, 1000 );
-			//scene.fog=new THREE.FogExp2( 0xffffff, 0.0015 );						
+			this.scene.add( ambientLight );					
 
 			//Створення ортогональної сітки
 			const size = 2000;
@@ -77,10 +58,6 @@ export default class World{
 
 			//Управління камерою з допомогою миші
 			this.controls = new OrbitControls(this.camera, this.renderer.domElement);	
-			//controls.addEventListener('change', animate);
-
-			//Управління камерою від першої особи за допомогою миші
-			//renderer.setAnimationLoop( render );
 
 			//const clock = new THREE.Clock();
 
@@ -92,7 +69,6 @@ export default class World{
 			//Автоматичне перемальовування при зміні розмірів вікна
 			window.addEventListener( 'resize', 
 									 () => {
-										//console.log(window.innerWidth);
 							    		if(this.camera!=null){
 							    		 
 							    			this.camera.aspect = window.innerWidth / window.innerHeight;
