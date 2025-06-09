@@ -145,7 +145,7 @@ export default class Patriot{
 
 		shoot(){ 
 			const position = this.arrow.position.clone();
-			console.log(position);
+			//console.log(position);
 			position.y=6.5;
 
 			let rocket = new Bullet( this.scene,

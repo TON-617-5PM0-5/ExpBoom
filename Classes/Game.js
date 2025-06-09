@@ -5,6 +5,7 @@ import Locator from './Locator.js';
 import Patriot from './Patriot.js';
 import Sky from './Sky.js';
 
+
 const deltaT=0.1;
 
 export default class Game{
@@ -27,6 +28,9 @@ export default class Game{
 
 			const locator = new Locator(this.world.scene, new THREE.Vector3(10,0,-15) );
 			this.Objects.push(locator);
+
+			//this.Objects.push(terrain);
+			//terrain.model.position.y -= 100;
 
 
 

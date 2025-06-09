@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+import Terrain from './Terrain.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 export default class World{
@@ -40,6 +41,8 @@ export default class World{
 			this.scene.add(plane);
 			plane.rotation.x=-Math.PI/2;
 			plane.position.y=-0.1;
+
+			const terrain = new Terrain(this.scene, new THREE.Vector3(0,-1000,0), 4700);
 
 			const light = new THREE.HemisphereLight( 0xfff7f7, 0x494966, 13 );
 			this.scene.add( light );
