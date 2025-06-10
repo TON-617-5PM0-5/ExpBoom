@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-class Particle{
+export class Particle{
 	constructor(position, size, color, lifetime, Changes){
 		this.position = position;
 		this.size = size;
@@ -10,7 +10,9 @@ class Particle{
 	}
 	animate(){
 		this.lifetime--;
-		if (this.lifetime < 0){
+		//console.log(this);
+		if (this.lifetime < 0 || this.color.r < 0.001){
+			//console.log("died")
 			this.dead = true;
 			return;
 		}
@@ -54,6 +56,21 @@ export default class ParticleSystem{
 		//this.geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( this.colors, 3 ) );
 		//this.geometry.setAttribute( 'size', new THREE.Float32BufferAttribute( this.sizes, 1 ).setUsage( THREE.DynamicDrawUsage ) );
 	}
+
+	PutParticle(Particle){
+		this.particles.push(Particle);
+	}
+
+	CreateParticle(position, color, size, lifetime, Changes){
+		const p = new Particle(position, size, color, lifetime, Changes);
+		this.particles.push(p);
+		return p;
+	}
+
+	GetParticles(){
+		return this.particles;
+	}
+
 	CreateParticleCloud(position, color, size, lifetime, amount, spread, Changes){
 		for ( let i = 0; i < amount; i ++ ) {
 			let u = Math.random();
@@ -68,7 +85,7 @@ export default class ParticleSystem{
 		    let z = r * Math.cos(phi);
 
 			const _position = new THREE.Vector3((x) + position.x,(y) + position.y,(z) + position.z);
-			this.particles.push(new Particle(_position, size, color, lifetime, Changes));
+			this.CreateParticle(_position, color.clone(), size, lifetime, Changes);
 
 		}
 	}

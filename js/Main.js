@@ -21,7 +21,7 @@ function animate(){
 	//controls.update( clock.getDelta() );
 	requestAnimationFrame(animate);
 
-	game.animate();
+	game.animate(clock.getDelta());
 }
 
 document.onkeydown = function(e){

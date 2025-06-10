@@ -3,8 +3,8 @@ const StepG = new THREE.SphereGeometry(0.8, 5, 5);
 
 export default class Bullet{
     	constructor(game, position, speed, aH, aV){
- 			this.startPosition = Object.assign({}, position);
-			this.position      = Object.assign({}, position);   	
+ 			this.startPosition = position.clone();
+			this.position      = position.clone();   	
 			this.speed=speed;
 			this.angleH = aH;
 			this.angleV = aV;
@@ -25,12 +25,15 @@ export default class Bullet{
 			this.mesh.rotation.set(-Math.PI/2, -aV, aH);
 
 			game.getScene().add(this.mesh);
+
     	}
 
-		move(deltaT){
+		move(deltaTime){
 			const pos = this.startPosition; 	
 
-			this.t+=deltaT;	
+			const fromPosition = this.position.clone()
+
+			this.t+=deltaTime*10;	
 			this.position.x = pos.x + this.Vx * this.t;
 			this.position.z = pos.z + this.Vz * this.t;
 			this.position.y = pos.y + this.Vy * this.t - this.game.world.g*this.t**2/2;
@@ -39,12 +42,12 @@ export default class Bullet{
 
 	        this.mesh.position.copy(this.position);
 
-	        this.game.getSPS().CreateParticleCloud(this.position, new THREE.Color().setRGB( 0.5, 0.5, 0.5 ), 2, 500, 40, 5, {motion: new THREE.Vector3(0,0.005,0), morphing: 0.01, fade: -0.0005});
+			this.game.getSPS().CreateParticleCloud(this.position, new THREE.Color().setRGB( 0.2, 0.2, 0.2 ), 3, 10000, 5, 2, {motion: new THREE.Vector3(0,0.005,0), morphing: 0.01, fade: -0.00002});
 
 			//Створення сліду : Old one
 			/*let ps=this.position;
 			let st=this.speed/100;
-			for(let j=this.t-deltaT; j<this.t; j+=deltaT/20){
+			for(let j=this.t-deltaTime; j<this.t; j+=deltaTime/20){
 				
 				let StepM = new THREE.MeshLambertMaterial({color:'white', opacity:0.6, transparent:true});
 				const point = new THREE.Mesh(StepG, StepM);
@@ -59,8 +62,8 @@ export default class Bullet{
 				pp.z+=-st+2*st*Math.random();
 				//point.position.copy(pp);
 				this.game.SmokeParticles.push(point);
-				this.game.world.scene.add(point);*/
-			//}
+				this.game.world.scene.add(point);
+			}*/
 		}
 
 		showParam(view){			
@@ -76,8 +79,6 @@ export default class Bullet{
 			view[5].innerHTML = (pos.x).toFixed(1);
 			view[6].innerHTML = (pos.y).toFixed(1);
 			view[7].innerHTML = (pos.z).toFixed(1);
-
-			view[8].innerHTML = this.game.getSPS().particleA;
 
 			//console.log('x=' + pos.x + ', y=' + pos.y + ', z=' + pos.z);
 		}   	

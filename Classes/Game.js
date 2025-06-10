@@ -17,6 +17,7 @@ export default class Game{
 			this.Rockets=[];
 			this.SmokeParticles=[]; // Will be deleted
 
+			this.deltaTime = 1;
 			this.world = new World();
 			this.Spans = _Spans;
 
@@ -63,9 +64,11 @@ export default class Game{
     		return this.SmokeParticlesSystem;
     	}
 
-    	animate(){
+    	animate(deltaTime){
+    		this.deltaTime =deltaTime;
+    		this.Spans[8].innerHTML = this.getSPS().particleA;
     		for(let i=0; i<this.Rockets.length; i++){
-        		this.Rockets[i].move(deltaT);
+        		this.Rockets[i].move(deltaTime);
 
 				if (i==this.Rockets.length-1){
 					this.Rockets[i].showParam(this.Spans);
@@ -82,7 +85,7 @@ export default class Game{
 
 			for(let j=0; j<this.SmokeParticles.length; j++){
 				let SP=this.SmokeParticles[j];
-	        	SP.material.opacity-=0.05;
+	        	SP.material.opacity-=0.005;
 	        	SP.position.y+=0.005;
 	        	SP.position.z+=0.001;
 
@@ -93,7 +96,7 @@ export default class Game{
 	        }
 
 	        for( let i=0; i<this.Objects.length; i++){
-	        	this.Objects[i].animate();
+	        	this.Objects[i].animate(deltaTime);
 	        }
     		
 
