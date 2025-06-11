@@ -15,7 +15,7 @@ export default class Game{
 			this.Enemies=[];
 
 			this.Rockets=[];
-			this.SmokeParticles=[]; // Will be deleted
+			//this.SmokeParticles=[]; //
 
 			this.deltaTime = 1;
 			this.world = new World();
@@ -36,7 +36,7 @@ export default class Game{
 			
 
 			//********************************************************************
-			//this.CreateEnemies();
+			this.CreateEnemies();
 			
 			this.CurEnemyLauncher = this.Enemies[0];
 			this.CurEnemyIndex = 0;
@@ -83,7 +83,7 @@ export default class Game{
 	        }
 
 
-			for(let j=0; j<this.SmokeParticles.length; j++){
+			/*for(let j=0; j<this.SmokeParticles.length; j++){
 				let SP=this.SmokeParticles[j];
 	        	SP.material.opacity-=0.005;
 	        	SP.position.y+=0.005;
@@ -93,14 +93,14 @@ export default class Game{
 	        		this.getScene().remove(SP);
 	        		this.SmokeParticles.splice(j,1);
 	        	}	 		
-	        }
+	        }*/
 
 	        for( let i=0; i<this.Objects.length; i++){
 	        	this.Objects[i].animate(deltaTime);
 	        }
     		
 
-	        /*let T = 500*Math.random();
+	        let T = 500*Math.random();
 	        if(T<10){
 	        	let index = Math.round((this.Enemies.length-1)*Math.random());
 	        	this.CurEnemyLauncher = this.Enemies[index];
@@ -112,7 +112,7 @@ export default class Game{
 
 	        	this.CurEnemyLauncher.shoot();
 
-	        }*/
+	        }
 
 
     		this.world.renderer.render(this.world.scene, this.world.camera);

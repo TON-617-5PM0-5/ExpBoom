@@ -9,13 +9,13 @@ export class Particle{
 		this.dead = false;
 	}
 	animate(){
+		// checking if isnt it dead
 		this.lifetime--;
-		//console.log(this);
 		if (this.lifetime < 0 || this.color.r < 0.001){
-			//console.log("died")
 			this.dead = true;
 			return;
 		}
+		// apply Changes
 		this.position.add(this.Changes.motion ? this.Changes.motion : new THREE.Vector3( ));
 		this.size += this.Changes.morphing ? this.Changes.morphing : 0;
 		this.color.addScalar(this.Changes.fade ? this.Changes.fade : 0);
@@ -23,11 +23,7 @@ export class Particle{
 }
 
 export default class ParticleSystem{
-	//particleA = 0;
 	constructor(game, textureUrl){
-		//const particles = new THREE.Points(particlesGeometry, shaderMaterial);
-		//Game.world.scene.add(particles);
-		//particles.position.copy(position);
 		const uniforms = {
 			pointTexture: { value: new THREE.TextureLoader().load( textureUrl ) }
 		};
@@ -45,16 +41,12 @@ export default class ParticleSystem{
 
 
 		this.geometry = new THREE.BufferGeometry();
-		this.particleA = 0;
+		this.particleA = 0; // Particle amount
 		this.particles = [];
 
 		this.particleSystem = new THREE.Points( this.geometry, shaderMaterial );
 
 		game.getScene().add(this.particleSystem);
-
-		//this.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ).setUsage( THREE.DynamicDrawUsage ) );
-		//this.geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( this.colors, 3 ) );
-		//this.geometry.setAttribute( 'size', new THREE.Float32BufferAttribute( this.sizes, 1 ).setUsage( THREE.DynamicDrawUsage ) );
 	}
 
 	PutParticle(Particle){
@@ -73,24 +65,28 @@ export default class ParticleSystem{
 
 	CreateParticleCloud(position, color, size, lifetime, amount, spread, Changes){
 		for ( let i = 0; i < amount; i ++ ) {
+			// creating random position in sphere
 			let u = Math.random();
 		    let v = Math.random();
 		    let theta = u * 2.0 * Math.PI;
 		    let phi = Math.acos(2.0 * v - 1.0);
-		    let r = Math.cbrt(Math.random()) * spread;  // cube root for uniform distribution
+		    let r = Math.cbrt(Math.random()) * spread;
 
 		    let sinPhi = Math.sin(phi);
 		    let x = r * sinPhi * Math.cos(theta);
 		    let y = r * sinPhi * Math.sin(theta);
 		    let z = r * Math.cos(phi);
 
+		    //creating the particle
 			const _position = new THREE.Vector3((x) + position.x,(y) + position.y,(z) + position.z);
 			this.CreateParticle(_position, color.clone(), size, lifetime, Changes);
 
 		}
 	}
 	animate(){
-		this.geometry.dispose()
+		// there are no way to clear geometry's attributes properly, So we have to delete the geometry and create new one.
+
+		this.geometry.dispose();
 		this.geometry = new THREE.BufferGeometry();
 		this.particleSystem.geometry = this.geometry;
 
@@ -105,8 +101,6 @@ export default class ParticleSystem{
 			if (this.particles[i] && this.particles[i].dead) this.particles[i] = null;
 			if (!this.particles[i]) continue;
 
-			//console.log(positions.length);
-
 			positions.push(this.particles[i].position.x);
 			positions.push(this.particles[i].position.y);
 			positions.push(this.particles[i].position.z);
@@ -118,8 +112,7 @@ export default class ParticleSystem{
 			sizes.push(this.particles[i].size);
 		}
 
-		this.particleA = sizes.length;
-		//console.log(this.particleA);
+		this.particleA = this.particles.length;
 
 		this.geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ));
 		this.geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );

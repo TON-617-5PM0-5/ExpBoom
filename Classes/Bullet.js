@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-const StepG = new THREE.SphereGeometry(0.8, 5, 5);
+//const StepG = new THREE.SphereGeometry(0.8, 5, 5);
 
 export default class Bullet{
     	constructor(game, position, speed, aH, aV){
@@ -33,6 +33,7 @@ export default class Bullet{
 
 			const fromPosition = this.position.clone()
 
+			this.LastTime = this.t;
 			this.t+=deltaTime*10;	
 			this.position.x = pos.x + this.Vx * this.t;
 			this.position.z = pos.z + this.Vz * this.t;
@@ -42,12 +43,27 @@ export default class Bullet{
 
 	        this.mesh.position.copy(this.position);
 
-			this.game.getSPS().CreateParticleCloud(this.position, new THREE.Color().setRGB( 0.2, 0.2, 0.2 ), 3, 10000, 5, 2, {motion: new THREE.Vector3(0,0.005,0), morphing: 0.01, fade: -0.00002});
+			//this.game.getSPS().CreateParticleCloud(this.position, new THREE.Color().setRGB( 0.5, 0.5, 0.5 ), 5 + this.speed/100, 1000, 5 + this.speed/100, 3 + this.speed/100, {motion: new THREE.Vector3(0,0.005,0), morphing: 0.01, fade: -0.0005});
 
-			//Створення сліду : Old one
+			let ps=this.position;
+			let st=this.speed/100;
+			for(let j=this.LastTime; j<this.t; j+=deltaTime){
+				let pp = new THREE.Vector3();
+				pp.x = pos.x + this.Vx * j;
+				pp.z = pos.z + this.Vz * j;
+				pp.y = pos.y + this.Vy * j - this.game.world.g*j**2/2;
+
+				pp.x+=-st+2*st*Math.random();
+				pp.y+=-st+2*st*Math.random();
+				pp.z+=-st+2*st*Math.random();
+				//point.position.copy(pp);
+				this.game.getSPS().CreateParticle(pp,new THREE.Color().setRGB( 0.5, 0.5, 0.5 ), 5 + this.speed/100, 1000, {motion: new THREE.Vector3(0,0.005,0), morphing: 0.01, fade: -0.0005})
+			}
+
+			//Створення сліду
 			/*let ps=this.position;
 			let st=this.speed/100;
-			for(let j=this.t-deltaTime; j<this.t; j+=deltaTime/20){
+			for(let j=this.LastTime; j<this.t; j+=deltaTime/20){
 				
 				let StepM = new THREE.MeshLambertMaterial({color:'white', opacity:0.6, transparent:true});
 				const point = new THREE.Mesh(StepG, StepM);
@@ -79,7 +95,5 @@ export default class Bullet{
 			view[5].innerHTML = (pos.x).toFixed(1);
 			view[6].innerHTML = (pos.y).toFixed(1);
 			view[7].innerHTML = (pos.z).toFixed(1);
-
-			//console.log('x=' + pos.x + ', y=' + pos.y + ', z=' + pos.z);
 		}   	
     }
